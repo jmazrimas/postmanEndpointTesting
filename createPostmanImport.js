@@ -8,7 +8,7 @@ var readPostmanFile = function() {
 
 var psFile = readPostmanFile()
 
-var endpointList = buildEndpoints.returnUniqueEndpoints(psFile)
+var endpointList = buildEndpoints.returnUniqueEndpoints(psFile,'dev-web2')
 
 var postmanImportShell = {
 	"variables": [],

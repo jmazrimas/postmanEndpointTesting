@@ -15,7 +15,8 @@ module.exports = {
         existingEndpoints[currentRequest.method][currentRequest.url] = true
 
         if (domain) {
-          currentRequest.url = subURL(currentURL, domain)
+          currentRequest.url = this.subURL(currentRequest.url, domain)
+          currentEP.name = currentRequest.url
         }
 
         uniqueEndpoints.push(currentEP)
@@ -27,7 +28,7 @@ module.exports = {
   },
 
   subURL: function(currentURL, domain) {
-
+    return currentURL.replace('portal',domain)
   }
 
 }
