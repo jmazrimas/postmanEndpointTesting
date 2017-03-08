@@ -1,5 +1,6 @@
 var fs = require('fs');
 var buildEndpoints = require('./buildEndpoints')
+var writeMissingEndpoints = require('./writeMissingEndpoints')
 
 var readPostmanFile = function() {
   var rawData = fs.readFileSync( __dirname + '/Portal Live Run 3.postman_collection.json')
@@ -30,5 +31,7 @@ fs.writeFile("NEWpostman-import.json", fileContents, function(err) {
         return console.log(err);
     }
 
-    console.log("Write successful");
+    console.log("Write import successful");
 });
+
+writeMissingEndpoints.writeMissing(postmanImportShell)
