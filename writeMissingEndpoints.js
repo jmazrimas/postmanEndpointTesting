@@ -1,22 +1,8 @@
 var fs = require('fs');
+var cleanUrls = require('./cleanUrls');
+var dfData = require('./cleanDF');
 
 module.exports = {
-
-  stripDomainAndParams: function(url) {
-      var subStart = url.indexOf('/rest') == -1 ? 0 : url.indexOf('/rest') + 5
-      var subLen = url.indexOf('?')
-      subLen = subLen == -1 ? url.length : subLen
-
-      var stringToReturn = url.substring(subStart, subLen)
-
-      var idLocation = stringToReturn.search(/\d/)
-
-      if (idLocation != -1) {
-        stringToReturn = stringToReturn.substring(0,idLocation-1)
-      }
-
-      return stringToReturn.replace(/\/$/, '');
-  },
 
   writeMissing: function(createdImport) {
 
@@ -38,7 +24,7 @@ module.exports = {
     for (var i=0; i<importEndpoints.length; i++) {
       var currentRequest = importEndpoints[i].request
       var currentURL = importEndpoints[i].request.url
-      currentURL = this.stripDomainAndParams(currentURL)
+      currentURL = cleanUrls.stripDomainAndParams(currentURL)
 
 
       if (targetUrls[currentURL]) {
@@ -53,7 +39,7 @@ module.exports = {
     for (var i=0; i<requiredEndP.length; i++) {
       var currentRequest = requiredEndP[i].request
       var currentURL = requiredEndP[i].endpoint
-      currentURL = this.stripDomainAndParams(currentURL)
+      currentURL = cleanUrls.stripDomainAndParams(currentURL)
 
       if (requiredUrls[currentURL]) {
 
@@ -64,13 +50,20 @@ module.exports = {
 
     }
 
+    var datafactoryList = dfData.returnDFData()
+
     for (i=0; i<requiredUrlList.length; i++) {
       var addressToCheck = requiredUrlList[i]
 
       if (!targetUrls[addressToCheck] && !missingUrls[requiredEndP[i].endpoint]) {
         // missingUrls.push()
+        var note = ""
+        if (datafactoryList.indexOf(requiredEndP[i].endpoint) == -1) {
+          note = "possible not in DF"
+        }
+
         missingUrls[requiredEndP[i].endpoint] = {
-          notes: ""
+          notes: note
         }
       }
 

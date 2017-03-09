@@ -1,3 +1,5 @@
+var cleanUrls = require('./cleanUrls');
+
 module.exports = {
   returnUniqueEndpoints: function(psFile, domain) {
 
@@ -8,11 +10,13 @@ module.exports = {
     for (var i=0; i<endpoints.length; i++ ) {
       var currentEP = endpoints[i]
       var currentRequest = endpoints[i].request
+      var compareUrl = cleanUrls.stripDomainAndParams(currentRequest.url)
 
-      if (existingEndpoints[currentRequest.method] && existingEndpoints[currentRequest.method][currentRequest.url]){
+
+      if (existingEndpoints[currentRequest.method] && existingEndpoints[currentRequest.method][compareUrl]){
       } else {
         if(!existingEndpoints[currentRequest.method]) { existingEndpoints[currentRequest.method] = {}}
-        existingEndpoints[currentRequest.method][currentRequest.url] = true
+        existingEndpoints[currentRequest.method][compareUrl] = true
 
         if (domain) {
           currentRequest.url = this.subURL(currentRequest.url, domain)
@@ -23,6 +27,7 @@ module.exports = {
       }
     }
 
+    console.log('saving unique', uniqueEndpoints.length)
     return uniqueEndpoints
 
   },
