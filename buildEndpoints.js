@@ -27,7 +27,6 @@ module.exports = {
       }
     }
 
-    console.log('saving unique', uniqueEndpoints.length)
     return uniqueEndpoints
 
   },

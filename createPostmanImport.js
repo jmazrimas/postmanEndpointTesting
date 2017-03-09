@@ -3,7 +3,7 @@ var buildEndpoints = require('./buildEndpoints')
 var writeMissingEndpoints = require('./writeMissingEndpoints')
 
 var readPostmanFile = function() {
-  var rawData = fs.readFileSync( __dirname + '/Portal Live Run 3.postman_collection.json')
+  var rawData = fs.readFileSync( __dirname + '/Portal Live Run 4.postman_collection.json')
   return JSON.parse(rawData)
 }
 

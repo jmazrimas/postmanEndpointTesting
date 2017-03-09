@@ -52,17 +52,16 @@ module.exports = {
 
     var datafactoryList = dfData.returnDFData()
 
-    for (i=0; i<requiredUrlList.length; i++) {
+    for (var i=0; i<requiredUrlList.length; i++) {
       var addressToCheck = requiredUrlList[i]
+      if (!targetUrls[addressToCheck] && !missingUrls[requiredUrlList[i]]) {
 
-      if (!targetUrls[addressToCheck] && !missingUrls[requiredEndP[i].endpoint]) {
-        // missingUrls.push()
         var note = ""
-        if (datafactoryList.indexOf(requiredEndP[i].endpoint) == -1) {
+        if (datafactoryList.indexOf(requiredUrlList[i]) == -1) {
           note = "possible not in DF"
         }
 
-        missingUrls[requiredEndP[i].endpoint] = {
+        missingUrls[requiredUrlList[i]] = {
           notes: note
         }
       }
@@ -70,6 +69,7 @@ module.exports = {
       if (targetUrls[addressToCheck]) {
         capturedUrls.push(addressToCheck)
       }
+
     }
 
     var fileContents = JSON.stringify(missingUrls)
