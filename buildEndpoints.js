@@ -1,4 +1,5 @@
 var cleanUrls = require('./cleanUrls');
+var writeTestedList = require('./writeTestedList')
 
 module.exports = {
   returnUniqueEndpoints: function(psFile, domain) {
@@ -26,6 +27,8 @@ module.exports = {
         uniqueEndpoints.push(currentEP)
       }
     }
+
+    writeTestedList.writeTested(existingEndpoints);
 
     return uniqueEndpoints
 

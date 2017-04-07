@@ -3,7 +3,7 @@ var buildEndpoints = require('./buildEndpoints')
 var writeMissingEndpoints = require('./writeMissingEndpoints')
 
 var readPostmanFile = function() {
-  var rawData = fs.readFileSync( __dirname + '/Portal Live Run 4.postman_collection.json')
+  var rawData = fs.readFileSync( __dirname + '/marcin.postman_collectionV2.json')
   return JSON.parse(rawData)
 }
 
@@ -24,9 +24,11 @@ var postmanImportShell = {
 
 postmanImportShell.item = endpointList
 
+// console.log(writeTestedList.writeTested(endpointList));
+
 var fileContents = JSON.stringify(postmanImportShell)
 
-fs.writeFile("NEWpostman-import.json", fileContents, function(err) {
+fs.writeFile("PORTALpostman-import.json", fileContents, function(err) {
     if(err) {
         return console.log(err);
     }
@@ -34,4 +36,4 @@ fs.writeFile("NEWpostman-import.json", fileContents, function(err) {
     console.log("Write import successful");
 });
 
-writeMissingEndpoints.writeMissing(postmanImportShell)
+// writeMissingEndpoints.writeMissing(postmanImportShell)
