@@ -24,8 +24,6 @@ var postmanImportShell = {
 
 postmanImportShell.item = endpointList
 
-// console.log(writeTestedList.writeTested(endpointList));
-
 var fileContents = JSON.stringify(postmanImportShell)
 
 fs.writeFile("PORTALpostman-import.json", fileContents, function(err) {
