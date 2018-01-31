@@ -1,4 +1,4 @@
-var auth = "969d3275d6f14c5c899c0fefb7235ac1";
+var auth = "";
 
 var requestTemplate = function(uuid) {
   return {
