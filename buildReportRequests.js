@@ -1,11 +1,17 @@
-var auth = "969d3275d6f14c5c899c0fefb7235ac1";
+var auth = "";
 var urlString = function (uuid, authToken) {
 
   var urlString = {
     "url": "https://app.amper.xyz/#/reports/"+uuid+"/auth/"+authToken,
     "pdf": {
       "format": "Letter"
-    }
+    },
+    // "goto": {
+    //   "waitUntil": "networkidle",
+    //   "networkIdleTimeout": 1000,
+    //   "networkIdleInflight": 0
+    // }
+    "waitFor": 10000,
   }
 
   return JSON.stringify(urlString, null, "\t")+"' -H\"content-type: application/json\" http://localhost:9000/api/render"
@@ -46,10 +52,8 @@ module.exports = {
     }).slice(0, limit || reportData.length)
   },
   returnCurlBash: function(reportData, limit) {
-    return reportData.data.reports.map((report, i) => {
-      if (!(i % 3)) {
-        return curlTemplate(report.uuid, auth+'xxx');
-      }
+    return reportData.data.reports
+    .map((report, i) => {
       return curlTemplate(report.uuid, auth);
     }).slice(0, limit || reportData.length).join(" && echo \"done\" &\n")+"\n wait \n exit"
   }
