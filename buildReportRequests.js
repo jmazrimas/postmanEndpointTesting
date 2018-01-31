@@ -1,3 +1,5 @@
+var auth = "969d3275d6f14c5c899c0fefb7235ac1";
+
 var requestTemplate = function(uuid) {
   return {
     "name": "url-to-pdf-api "+uuid,
@@ -13,7 +15,7 @@ var requestTemplate = function(uuid) {
       ],
       "body": {
         "mode": "raw",
-        "raw": "{\n\t\"url\": \"https://app.amper.xyz/#/reports/"+uuid+"/auth/a78d1e7176f34e318f9f68770c03973e\",\n\t\"waitFor\": \"div.report-heading\",\n\t\"pdf\": {\n\t\t\"format\": \"Letter\"\n\t}\n}"
+        "raw": "{\n\t\"url\": \"https://app.amper.xyz/#/reports/"+uuid+"/auth/"+auth+"\",\n\t\"waitFor\": \"div.report-heading\",\n\t\"pdf\": {\n\t\t\"format\": \"Letter\"\n\t}\n}"
       },
       "description": ""
     },
@@ -21,8 +23,8 @@ var requestTemplate = function(uuid) {
   }
 }
 
-var curlTemplate = function(uuid) {
-  return "curl -o "+uuid+".pdf -XPOST -d'{\n\t\"url\": \"https://app.amper.xyz/#/reports/"+uuid+"/auth/a78d1e7176f34e318f9f68770c03973e\",\n\t\"waitFor\": \"div.report-heading\",\n\t\"pdf\": {\n\t\t\"format\": \"Letter\"\n\t}\n}' -H\"content-type: application/json\" http://localhost:9000/api/render"
+var curlTemplate = function(uuid, authToken) {
+  return "curl -o ~/Downloads/pdftest/"+uuid+".pdf -XPOST -d'{\n\t\"url\": \"https://app.amper.xyz/#/reports/"+uuid+"/auth/"+authToken+"\",\n\t\"waitFor\": \"div.report-heading\",\n\t\"pdf\": {\n\t\t\"format\": \"Letter\"\n\t}\n}' -H\"content-type: application/json\" http://localhost:9000/api/render"
 }
 
 module.exports = {
@@ -32,8 +34,11 @@ module.exports = {
     }).slice(0, limit || reportData.length)
   },
   returnCurlBash: function(reportData, limit) {
-    return reportData.data.reports.map((report) => {
-      return curlTemplate(report.uuid);
+    return reportData.data.reports.map((report, i) => {
+      if (!(i % 3)) {
+        return curlTemplate(report.uuid, auth+'xxx');
+      }
+      return curlTemplate(report.uuid, auth);
     }).slice(0, limit || reportData.length).join(" && echo \"done\" &\n")
   }
 }
