@@ -13,7 +13,7 @@ var requestTemplate = function(uuid) {
       ],
       "body": {
         "mode": "raw",
-        "raw": "{\n\t\"url\": \"https://app.amper.xyz/#/reports/"+uuid+"/auth/a78d1e7176f34e318f9f68770c03973e\",\n\t\"waitFor\": 5000,\n\t\"pdf\": {\n\t\t\"format\": \"Letter\"\n\t}\n}"
+        "raw": "{\n\t\"url\": \"https://app.amper.xyz/#/reports/"+uuid+"/auth/a78d1e7176f34e318f9f68770c03973e\",\n\t\"waitFor\": \"div.report-heading\",\n\t\"pdf\": {\n\t\t\"format\": \"Letter\"\n\t}\n}"
       },
       "description": ""
     },
@@ -21,10 +21,19 @@ var requestTemplate = function(uuid) {
   }
 }
 
+var curlTemplate = function(uuid) {
+  return "curl -o "+uuid+".pdf -XPOST -d'{\n\t\"url\": \"https://app.amper.xyz/#/reports/"+uuid+"/auth/a78d1e7176f34e318f9f68770c03973e\",\n\t\"waitFor\": \"div.report-heading\",\n\t\"pdf\": {\n\t\t\"format\": \"Letter\"\n\t}\n}' -H\"content-type: application/json\" http://localhost:9000/api/render"
+}
+
 module.exports = {
   returnRequests: function(reportData, limit) {
     return reportData.data.reports.map((report) => {
       return requestTemplate(report.uuid);
     }).slice(0, limit || reportData.length)
+  },
+  returnCurlBash: function(reportData, limit) {
+    return reportData.data.reports.map((report) => {
+      return curlTemplate(report.uuid);
+    }).slice(0, limit || reportData.length).join(" && echo \"done\" &\n")
   }
 }

@@ -34,6 +34,8 @@ var postmanImportShell = {
 
 postmanImportShell.item = buildReportRequests.returnRequests(readReportList(), 5)
 
+var bashScript = buildReportRequests.returnCurlBash(readReportList(), 3);
+
 var fileContents = JSON.stringify(postmanImportShell)
 
 fs.writeFile("PDFs-postman-import.json", fileContents, function(err) {
@@ -44,4 +46,10 @@ fs.writeFile("PDFs-postman-import.json", fileContents, function(err) {
     console.log("Write import successful");
 });
 
-// writeMissingEndpoints.writeMissing(postmanImportShell)
+fs.writeFile("curlpdfs.sh", bashScript, function(err) {
+    if(err) {
+        return console.log(err);
+    }
+
+    console.log("Write bash successful");
+});
