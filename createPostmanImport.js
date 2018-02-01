@@ -34,7 +34,7 @@ var postmanImportShell = {
 
 postmanImportShell.item = buildReportRequests.returnRequests(readReportList(), 5)
 
-var bashScript = buildReportRequests.returnCurlBash(readReportList());
+var bashScript = buildReportRequests.returnCurlBash(readReportList(), 10);
 
 var fileContents = JSON.stringify(postmanImportShell)
 

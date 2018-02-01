@@ -1,4 +1,6 @@
 var auth = "";
+var serviceUrl = "http://10.0.1.83:9000/api/render";
+
 var urlString = function (uuid, authToken) {
 
   var urlString = {
@@ -14,8 +16,7 @@ var urlString = function (uuid, authToken) {
     "waitFor": 10000,
   }
 
-  return JSON.stringify(urlString, null, "\t")+"' -H\"content-type: application/json\" http://localhost:9000/api/render"
-  // return "{\n\t\"url\": \"https://app.amper.xyz/#/reports/"+uuid+"/auth/"+authToken+"\",\n\t\"pdf\": {\n\t\t\"format\": \"Letter\"\n\t}\n}' -H\"content-type: application/json\" http://localhost:9000/api/render"
+  return JSON.stringify(urlString, null, "\t")+"' -H\"content-type: application/json\" "+serviceUrl;
 }
 
 var requestTemplate = function(uuid, authToken) {
@@ -42,7 +43,7 @@ var requestTemplate = function(uuid, authToken) {
 }
 
 var curlTemplate = function(uuid, authToken) {
-  return "curl -o ~/Downloads/pdftest/"+uuid+".pdf -XPOST -d'"+urlString(uuid, auth);
+  return "curl -o ~/pdftest/"+uuid+".pdf -XPOST -d'"+urlString(uuid, auth);
 }
 
 module.exports = {
