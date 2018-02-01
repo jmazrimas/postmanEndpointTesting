@@ -23,7 +23,7 @@ var requestTemplate = function(uuid, authToken) {
   return {
     "name": "url-to-pdf-api "+uuid,
     "request": {
-      "url": "http://localhost:9000/api/render",
+      "url": serviceUrl,
       "method": "POST",
       "header": [
         {
